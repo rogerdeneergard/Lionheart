@@ -1,0 +1,35 @@
+﻿  compilation header save succeeded; see C:\Users\Buster\Documents\ideas\Lionheart\stdpixelshader.h
+  compilation object save succeeded; see C:\Users\Buster\Documents\ideas\Lionheart\Debug\stdpixelshader.cso
+  compilation header save succeeded; see C:\Users\Buster\Documents\ideas\Lionheart\stdvertexshader.h
+  compilation object save succeeded; see C:\Users\Buster\Documents\ideas\Lionheart\Debug\stdvertexshader.cso
+  GraphicsAdapter.cpp
+c:\users\buster\documents\ideas\lionheart\graphics\graphicsadapter.cpp(40): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  DX11WinAPIEntry.cpp
+c:\users\buster\documents\ideas\lionheart\dx11winapientry.cpp(20): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  ErrorLog.cpp
+c:\users\buster\documents\ideas\lionheart\errorlog.cpp(22): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  GraphicsHandler.cpp
+c:\users\buster\documents\ideas\lionheart\graphics\graphicshandler.cpp(287): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  KeyEvent.cpp
+c:\users\buster\documents\ideas\lionheart\keyboard\keyevent.cpp(26): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  KeyLog.cpp
+c:\users\buster\documents\ideas\lionheart\keyboard\keylog.cpp(87): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  LionheartEngine.cpp
+c:\users\buster\documents\ideas\lionheart\lionheartengine.cpp(44): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  math_basics.cpp
+c:\users\buster\documents\ideas\lionheart\math_basics.cpp(72): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  MouseEvent.cpp
+c:\users\buster\documents\ideas\lionheart\mouse\mouseevent.cpp(31): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  MouseLog.cpp
+c:\users\buster\documents\ideas\lionheart\mouse\mouselog.cpp(107): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  RenderWindow.cpp
+c:\users\buster\documents\ideas\lionheart\renderwindow.cpp(147): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  Shaders.cpp
+c:\users\buster\documents\ideas\lionheart\graphics\shaders.cpp(90): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  StringConverter.cpp
+c:\users\buster\documents\ideas\lionheart\stringconverter.cpp(7): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  Time.h
+c:\users\buster\documents\ideas\lionheart\time.h(21): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  WinContainer.cpp
+c:\users\buster\documents\ideas\lionheart\wincontainer.cpp(156): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  Generating Code...
