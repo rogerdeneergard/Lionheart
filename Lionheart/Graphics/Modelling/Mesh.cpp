@@ -21,7 +21,15 @@ Mesh::Mesh(ID3D11Device * devicePtr, ID3D11DeviceContext * contextPtr) :
 
 	// Initialise vertex buffer
 	{
-		hr = vertexBuffer.Initialise(devicePtr, contextPtr, v, ARRAYSIZE(v));
+		hr = vertexBuffer.Initialise(
+			devicePtr, 
+			contextPtr, 
+			v, 
+			ARRAYSIZE(v),
+			0,
+			D3D11_USAGE_DEFAULT,
+			D3D11_BIND_VERTEX_BUFFER
+		);
 		COM_CHECK_FAIL(hr, "Failed to initialise vertex buffer on scene initialisation.");
 	}
 
@@ -77,6 +85,4 @@ DXBuffer<DWORD> * Mesh::GetIndexBufferPtr()
 	return &indexBuffer;
 }
 
-void Mesh::Update()
-{
-}
+void Mesh::Update() {}

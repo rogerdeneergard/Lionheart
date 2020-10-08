@@ -28,7 +28,7 @@ void GraphicsHandler::RenderFrame()
 {
 	try
 	{
-		float bgColour[] = { 0.0f, 0.0f, 0.0f, 1.0f }; // Set background colour
+		float bgColour[] = { 1.0f, 0.0f, 0.0f, 1.0f }; // Set background colour
 		contextPtr->ClearRenderTargetView(renderTargetViewPtr.Get(), bgColour); // Clear render target
 		contextPtr->ClearDepthStencilView(depthStencilViewPtr.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
@@ -65,8 +65,99 @@ void GraphicsHandler::RenderFrame()
 		*/
 		/* Drawing */
 
-		model.Update();
-		model.Draw(mainView.GetViewMatrix() * mainView.GetProjectionMatrix());
+		// Define vertices
+		Vertex v[] =
+		{
+		 Vertex(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f), //Bottom left
+		 Vertex(-1.0f, -1.0f, 1.0f, 0.0f, 0.0f), //Top left
+		 Vertex(1.0f, -1.0f, 1.0f, 1.0f, 0.0f), //Top right
+		 Vertex(1.0f, -1.0f, -1.0f, 1.0f, 1.0f), //Bottom right
+
+		 Vertex(-1.0f, -3.0f, -1.0f, 0.0f, 1.0f), //Bottom left
+		 Vertex(-1.0f, -3.0f, 1.0f, 0.0f, 0.0f), //Top left
+		 Vertex(1.0f, -3.0f, 1.0f, 1.0f, 0.0f), //Top right
+		 Vertex(1.0f, -3.0f, -1.0f, 1.0f, 1.0f), //Bottom right
+		};
+
+		DXBuffer<Vertex> vertexBuffer;
+		DXBuffer<DWORD> indexBuffer;
+
+		// Initialise vertex buffer
+		{
+			hr = vertexBuffer.Initialise(
+				devicePtr.Get(),
+				contextPtr.Get(),
+				v,
+				ARRAYSIZE(v),
+				0,
+				D3D11_USAGE_DEFAULT,
+				D3D11_BIND_VERTEX_BUFFER
+			);
+			COM_CHECK_FAIL(hr, "Failed to initialise vertex buffer on scene initialisation.");
+		}
+
+		// Define indices
+		DWORD indices[] =
+		{
+			// TOP
+			0, 1, 2,
+			0, 2, 3,
+			// BOTTOM
+			5, 4, 7,
+			5, 7, 6,
+			// FRONT
+			4, 0, 3,
+			4, 3, 7,
+			// BACK
+			6, 2, 1,
+			6, 1, 5,
+			// LEFT
+			5, 1, 0,
+			5, 0, 4,
+			// RIGHT
+			7, 3, 2,
+			7, 2, 6
+		};
+
+		// Initialise index buffer
+		{
+			hr = indexBuffer.Initialise(
+				devicePtr.Get(),
+				contextPtr.Get(),
+				indices,
+				ARRAYSIZE(indices),
+				0,
+				D3D11_USAGE_DEFAULT,
+				D3D11_BIND_INDEX_BUFFER
+			);
+			COM_CHECK_FAIL(hr, "Failed to initialise index buffer on scene initialisation.");
+		}
+
+		(**vsViewBuffer.GetData()).view = XMMatrixTranspose(XMMatrixIdentity() * mainView.GetViewMatrix() * mainView.GetProjectionMatrix());
+		vsViewBuffer.ApplyChanges();
+
+		contextPtr->VSSetConstantBuffers(0, 1, vsViewBuffer.GetAddressOf());
+
+		contextPtr->PSSetShaderResources(0, 1, &texturePtr);
+
+		contextPtr->IASetVertexBuffers(
+			0,
+			1,
+			vertexBuffer.GetAddressOf(),
+			vertexBuffer.GetStridePtr(),
+			vertexBuffer.GetOffsetPtr()
+		);
+
+		contextPtr->IASetIndexBuffer(
+			indexBuffer.Get(),
+			DXGI_FORMAT::DXGI_FORMAT_R32_UINT,
+			0
+		);
+
+		contextPtr->DrawIndexed(indexBuffer.BufferSize(), 0, 0);
+
+		//model.Update();
+		//model.Draw(mainView.GetViewMatrix() * mainView.GetProjectionMatrix());
 
 		std::string debug = "View position - x: " + std::to_string(mainView.GetPositionFloat3().x);
 		debug += " y: " + std::to_string(mainView.GetPositionFloat3().y);
@@ -91,6 +182,7 @@ void GraphicsHandler::RenderFrame()
 
 		spriteBatchPtr->End();
 
+		/*
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
@@ -98,6 +190,7 @@ void GraphicsHandler::RenderFrame()
 		ImGui::End();
 		ImGui::Render();
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+		*/
 
 		swapchainPtr->Present(0, NULL);
 	}
@@ -247,7 +340,7 @@ bool GraphicsHandler::InitialiseDirect3D(HWND hWin)
 			ZeroMemory(&rasterizerDesc, sizeof(D3D11_RASTERIZER_DESC));
 
 			rasterizerDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
-			rasterizerDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
+			rasterizerDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
 
 			hr = devicePtr->CreateRasterizerState(&rasterizerDesc, rasterizerStatePtr.GetAddressOf());
 			COM_CHECK_FAIL(hr, "Failed to create rasterizer state on Direct3D initialisation.");
@@ -375,6 +468,7 @@ bool GraphicsHandler::InitialiseScene()
 
 		Mesh * meshPtr = new Mesh(devicePtr.Get(), contextPtr.Get());
 		if(!model.Initialise(devicePtr.Get(), contextPtr.Get(), texturePtr.Get(), vsViewBuffer, meshPtr)) return false;
+		model.SetPosition(XMFLOAT3(0.0f, 0.0f, 5.0f), true);
 	}
 	catch (ComException &exception)
 	{

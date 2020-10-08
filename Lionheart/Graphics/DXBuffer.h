@@ -61,17 +61,21 @@ public:
 	HRESULT Initialise(ID3D11Device * devicePtr, ID3D11DeviceContext * contextPtr, Type * dataPtr, UINT size, UINT align = 0,
 		UINT usage = D3D11_USAGE_DEFAULT, UINT bindFlags = D3D11_BIND_VERTEX_BUFFER, UINT cpuAccessFlags = 0, UINT miscFlags = 0)
 	{
-		if (dataPtr == nullptr)
-		{
-			this->dataPtr = new Type[size];
-		}
-
-		else if (bufferPtr.Get() != nullptr) bufferPtr.Reset();
+		if (bufferPtr.Get() != nullptr) bufferPtr.Reset();
 
 		bufferSize = size;
 
 		if (align == 0 || sizeof(Type) % align == 0) stride = sizeof(Type);
 		else stride = static_cast<UINT>(sizeof(Type) + (align - (sizeof(Type) % align)));
+
+		if (dataPtr == nullptr)
+		{
+			this->dataPtr = (Type *) new BYTE[stride * size];
+		}
+		else
+		{
+			this->dataPtr = dataPtr;
+		}
 
 		offset = 0;
 
@@ -103,7 +107,7 @@ public:
 
 	HRESULT ApplyChanges()
 	{
-		if (contextPtr == nullptr) return S_OK;
+		if (contextPtr == nullptr) return S_FALSE;
 
 		D3D11_MAPPED_SUBRESOURCE mappedResource;
 		HRESULT hr = contextPtr->Map(bufferPtr.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);

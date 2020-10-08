@@ -32,6 +32,4 @@ private:
 	DXBuffer<CB_VS_View> * vsViewBufferPtr = nullptr;
 
 	Mesh * meshPtr;
-
-
 };

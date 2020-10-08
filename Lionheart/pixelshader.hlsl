@@ -1,4 +1,4 @@
-cbuffer alphaBuffer : register(b0)
+cbuffer alphaBuffer : register(b1)
 {
     float alpha;
 };

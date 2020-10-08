@@ -43,18 +43,18 @@ void Model::Draw(const XMMATRIX & viewProjectionMatrix)
 
 	contextPtr->PSSetShaderResources(0, 1, &texturePtr);
 
+	contextPtr->IASetVertexBuffers(
+		0,
+		1,
+		meshPtr->GetVertexBufferPtr()->GetAddressOf(),
+		meshPtr->GetVertexBufferPtr()->GetStridePtr(),
+		meshPtr->GetVertexBufferPtr()->GetOffsetPtr()
+	);
+
 	contextPtr->IASetIndexBuffer(
 		meshPtr->GetIndexBufferPtr()->Get(), 
 		DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 
 		0
-	);
-
-	contextPtr->IASetVertexBuffers(
-		0, 
-		1, 
-		meshPtr->GetVertexBufferPtr()->GetAddressOf(), 
-		meshPtr->GetVertexBufferPtr()->GetStridePtr(), 
-		meshPtr->GetVertexBufferPtr()->GetOffsetPtr()
 	);
 
 	contextPtr->DrawIndexed(meshPtr->GetIndexBufferPtr()->BufferSize(), 0, 0);
