@@ -2,7 +2,7 @@
 #include "../Keyboard/KeyLog.h"
 #include "../Util/ComException.h"
 #pragma comment(lib, "d3d11.lib")
-#pragma comment(lib, "DirectXTK.lib")
+//#pragma comment(lib, "DirectXTK.lib")
 #include "../Graphics/Vertex.h"
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,

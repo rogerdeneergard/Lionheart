@@ -175,6 +175,8 @@ void GraphicsHandler::RenderFrame()
 		OutputDebugStringA(debug.c_str());
 
 		/* Text */
+
+		/* ImGUI and DXTK sprite testing
 		spriteBatchPtr->Begin();
 
 		spriteFontPtr->DrawString(spriteBatchPtr.get(), L"Hello!", DirectX::XMFLOAT2(0, 0), DirectX::Colors::White, 0.0f,
@@ -182,7 +184,6 @@ void GraphicsHandler::RenderFrame()
 
 		spriteBatchPtr->End();
 
-		/*
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
