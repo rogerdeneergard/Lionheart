@@ -34,5 +34,4 @@
 # Visual studio
 Lionheart/.vs
 Lionheart/x64
-*.vcxproj*
 *.user

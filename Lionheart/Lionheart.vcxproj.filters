@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Mouse\MouseEvent.cpp">
+      <Filter>Class Source\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse\MouseLog.cpp">
+      <Filter>Class Source\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard\KeyEvent.cpp">
+      <Filter>Class Source\Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard\KeyLog.cpp">
+      <Filter>Class Source\Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\GraphicsAdapter.cpp">
+      <Filter>Class Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\GraphicsHandler.cpp">
+      <Filter>Class Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Shaders.cpp">
+      <Filter>Class Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\View.cpp">
+      <Filter>Class Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="WinAPI\DX11WinAPIEntry.cpp">
+      <Filter>Class Source\WinAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="WinAPI\LionheartEngine.cpp">
+      <Filter>Class Source\WinAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="WinAPI\RenderWindow.cpp">
+      <Filter>Class Source\WinAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="WinAPI\WinContainer.cpp">
+      <Filter>Class Source\WinAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\StringConverter.cpp">
+      <Filter>Class Source\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\Time.h">
+      <Filter>Class Headers\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\Timer.cpp">
+      <Filter>Class Source\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\ErrorLog.cpp">
+      <Filter>Class Source\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="DearImGui\imgui_draw.cpp">
+      <Filter>Class Source\DearImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="DearImGui\imgui_impl_dx11.cpp">
+      <Filter>Class Source\DearImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="DearImGui\imgui_impl_win32.cpp">
+      <Filter>Class Source\DearImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="DearImGui\imgui_widgets.cpp">
+      <Filter>Class Source\DearImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\math_basics.cpp">
+      <Filter>Class Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="DearImGui\imgui.cpp">
+      <Filter>Class Source\DearImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\ComException.cpp" />
+    <ClCompile Include="Graphics\GraphicsObject.cpp" />
+    <ClCompile Include="Graphics\Modelling\Model.cpp" />
+    <ClCompile Include="Graphics\Modelling\Rig.cpp" />
+    <ClCompile Include="Graphics\Modelling\Bone.cpp" />
+    <ClCompile Include="Graphics\Modelling\Mesh.cpp" />
+    <ClCompile Include="Graphics\Modelling\Joint.cpp" />
+    <ClCompile Include="Graphics\Modelling\MeshRigged.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Mouse\MouseEvent.h">
+      <Filter>Class Headers\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse\MouseLog.h">
+      <Filter>Class Headers\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard\KeyEvent.h">
+      <Filter>Class Headers\Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard\KeyLog.h">
+      <Filter>Class Headers\Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector2.h">
+      <Filter>Class Headers\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Graphics\GraphicsAdapter.h">
+      <Filter>Class Headers\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\GraphicsHandler.h">
+      <Filter>Class Headers\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Vertex.h">
+      <Filter>Class Headers\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Shaders.h">
+      <Filter>Class Headers\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DXBuffer.h">
+      <Filter>Class Headers\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\CBufferTypes.h">
+      <Filter>Class Headers\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DXCBuffer.h">
+      <Filter>Class Headers\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\View.h">
+      <Filter>Class Headers\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="WinAPI\LionheartEngine.h">
+      <Filter>Class Headers\WinAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="WinAPI\RenderWindow.h">
+      <Filter>Class Headers\WinAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="WinAPI\WinContainer.h">
+      <Filter>Class Headers\WinAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\StringConverter.h">
+      <Filter>Class Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\Timer.h">
+      <Filter>Class Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\ErrorLog.h">
+      <Filter>Class Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\DynamicArray.h">
+      <Filter>Class Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\Dictionary.h">
+      <Filter>Class Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\math_basics.h">
+      <Filter>Class Headers\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="DearImGui\imstb_truetype.h">
+      <Filter>Class Headers\DearImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="DearImGui\imstb_textedit.h">
+      <Filter>Class Headers\DearImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="DearImGui\imstb_rectpack.h">
+      <Filter>Class Headers\DearImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="DearImGui\imgui_internal.h">
+      <Filter>Class Headers\DearImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="DearImGui\imgui_impl_win32.h">
+      <Filter>Class Headers\DearImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="DearImGui\imgui_impl_dx11.h">
+      <Filter>Class Headers\DearImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="DearImGui\imgui.h">
+      <Filter>Class Headers\DearImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="DearImGui\imconfig.h">
+      <Filter>Class Headers\DearImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\ComException.h">
+      <Filter>Class Headers\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\GraphicsObject.h" />
+    <ClInclude Include="Graphics\Modelling\Model.h" />
+    <ClInclude Include="Graphics\Modelling\Rig.h" />
+    <ClInclude Include="Graphics\Modelling\Joint.h" />
+    <ClInclude Include="Graphics\Modelling\Bone.h" />
+    <ClInclude Include="Graphics\Modelling\Mesh.h" />
+    <ClInclude Include="Graphics\Modelling\RigObject.h" />
+    <ClInclude Include="Graphics\Modelling\MeshRigged.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Class Headers">
+      <UniqueIdentifier>{1eaf1e31-5f47-4036-ad97-2677e7bbdff7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class Source">
+      <UniqueIdentifier>{ff98d935-56b3-4f50-83c4-65084fa53e8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class Headers\Keyboard">
+      <UniqueIdentifier>{96eb3ca2-168f-4ea3-85c8-15684b1c1460}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class Headers\Mouse">
+      <UniqueIdentifier>{e5d172f6-1fb5-4e19-a40e-d881cd662158}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class Source\Mouse">
+      <UniqueIdentifier>{e012a187-d736-470e-bcda-341ae05db3a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class Source\Keyboard">
+      <UniqueIdentifier>{6b2ba5fc-4a97-4936-b544-5f6adcf002f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class Headers\Math">
+      <UniqueIdentifier>{bf8a2cd8-042c-40d6-b87a-b509a09021d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class Source\Graphics">
+      <UniqueIdentifier>{7df731ae-c241-4a20-a320-dc5bd447a5be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class Headers\Graphics">
+      <UniqueIdentifier>{87489ae2-aede-4785-8c26-f0b3c3e0fede}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{150df939-80cf-40c0-a13c-27ee467f6267}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class Headers\Util">
+      <UniqueIdentifier>{302d3c7b-9700-49de-8456-506dc571d44c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class Source\Util">
+      <UniqueIdentifier>{ba479cfe-d133-4dd9-b0d9-46ef799e6027}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class Source\WinAPI">
+      <UniqueIdentifier>{84ea208a-ea22-43a2-b130-269817a123a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class Headers\WinAPI">
+      <UniqueIdentifier>{dd66743e-e343-4f62-ba12-340f5b196e43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class Headers\DearImGui">
+      <UniqueIdentifier>{62ea4d5f-6d79-4fa8-b248-dadba7007f21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class Source\DearImGui">
+      <UniqueIdentifier>{14c8c9ed-446e-40a8-97f3-7fee5fca4895}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class Source\Math">
+      <UniqueIdentifier>{882dff77-04a4-403c-a85c-7218b1f5c6ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Textures">
+      <UniqueIdentifier>{69ebc7fe-571d-4c90-a8d4-ab0fe3c46983}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{cd2432e9-d9bf-4698-aaa7-3fd34e551bd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Fonts">
+      <UniqueIdentifier>{5eed632f-9471-478a-8541-1f35b5ef2d41}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Lionheart.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="skinningshader.hlsl" />
+    <FxCompile Include="pixelshader.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="vertexshader.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Downloads\DirectXTK-master\DirectXTK-master\MakeSpriteFont\bin\Release\comic_sans_ms_16.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="pixelshader.shader" />
+    <None Include="skinningshader.shader" />
+    <None Include="vertexshader.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\Downloads\download.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
