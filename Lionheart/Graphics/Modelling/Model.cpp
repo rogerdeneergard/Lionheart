@@ -36,7 +36,7 @@ void Model::SetTexture(ID3D11ShaderResourceView * texturePtr)
 
 void Model::Draw(const XMMATRIX & viewProjectionMatrix)
 {
-	(**vsViewBufferPtr->GetData()).view = XMMatrixTranspose(worldMatrix * viewProjectionMatrix);
+	vsViewBufferPtr->GetData()->view = XMMatrixTranspose(worldMatrix * viewProjectionMatrix);
 	vsViewBufferPtr->ApplyChanges();
 
 	contextPtr->VSSetConstantBuffers(0, 1, vsViewBufferPtr->GetAddressOf());

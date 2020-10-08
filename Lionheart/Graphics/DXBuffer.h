@@ -11,9 +11,9 @@ class DXBuffer
 public:
 	DXBuffer() {}
 
-	Type ** GetData()
+	Type * GetData()
 	{
-		return &dataPtr;
+		return dataPtr;
 	}
 
 	ID3D11Buffer * Get() const
@@ -61,6 +61,9 @@ public:
 	HRESULT Initialise(ID3D11Device * devicePtr, ID3D11DeviceContext * contextPtr, Type * dataPtr, UINT size, UINT align = 0,
 		UINT usage = D3D11_USAGE_DEFAULT, UINT bindFlags = D3D11_BIND_VERTEX_BUFFER, UINT cpuAccessFlags = 0, UINT miscFlags = 0)
 	{
+		this->devicePtr = devicePtr;
+		this->contextPtr = contextPtr;
+
 		if (bufferPtr.Get() != nullptr) bufferPtr.Reset();
 
 		bufferSize = size;
@@ -68,13 +71,11 @@ public:
 		if (align == 0 || sizeof(Type) % align == 0) stride = sizeof(Type);
 		else stride = static_cast<UINT>(sizeof(Type) + (align - (sizeof(Type) % align)));
 
-		if (dataPtr == nullptr)
+		this->dataPtr = (Type *) new BYTE[stride * size];
+
+		if (dataPtr != nullptr)
 		{
-			this->dataPtr = (Type *) new BYTE[stride * size];
-		}
-		else
-		{
-			this->dataPtr = dataPtr;
+			CopyMemory(this->dataPtr, dataPtr, stride * size);
 		}
 
 		offset = 0;
@@ -96,7 +97,7 @@ public:
 		{
 			ZeroMemory(&bufferData, sizeof(D3D11_SUBRESOURCE_DATA));
 
-			bufferData.pSysMem = dataPtr;
+			bufferData.pSysMem = this->dataPtr;
 		}
 		else bufferDataPtr = 0;
 
@@ -107,19 +108,46 @@ public:
 
 	HRESULT ApplyChanges()
 	{
-		if (contextPtr == nullptr) return S_FALSE;
-
-		D3D11_MAPPED_SUBRESOURCE mappedResource;
-		HRESULT hr = contextPtr->Map(bufferPtr.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-
-		if (FAILED(hr))
+		try
 		{
+			if (contextPtr == nullptr) COM_CHECK_FAIL(E_FAIL, "Attempted to write to DXBuffer with no device context.");
+
+			D3D11_MAPPED_SUBRESOURCE mpsr;
+			hr = contextPtr->Map(bufferPtr.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mpsr);
+			COM_CHECK_FAIL(hr, "Failed to map a subresource to write to DXBuffer.");
+
+			CopyMemory(mpsr.pData, dataPtr, stride * bufferSize);
+			contextPtr->Unmap(bufferPtr.Get(), 0);
+
 			return hr;
 		}
-		CopyMemory(mappedResource.pData, dataPtr, stride * bufferSize);
-		this->contextPtr->Unmap(bufferPtr.Get(), 0);
+		catch (ComException &exception)
+		{
+			ErrorLog::Log(exception);
+			return hr;
+		}
+	}
 
-		return hr;
+	HRESULT ReadToSysMem()
+	{
+		try
+		{
+			if (contextPtr == nullptr) COM_CHECK_FAIL(E_FAIL, "Attempted to read from DXBuffer with no device context.");
+
+			D3D11_MAPPED_SUBRESOURCE mpsr;
+			hr = contextPtr->Map(bufferPtr.Get(), 0, D3D11_MAP_READ, 0, &mpsr);
+			COM_CHECK_FAIL(hr, "Failed to map a subresource to read from DXBuffer.");
+
+			CopyMemory(dataPtr, mpsr.pData, stride * bufferSize);
+			contextPtr->Unmap(bufferPtr.Get(), 0);
+
+			return hr;
+		}
+		catch (ComException &exception)
+		{
+			ErrorLog::Log(exception);
+			return hr;
+		}
 	}
 
 private:
@@ -131,4 +159,6 @@ private:
 	UINT offset;
 	Type * dataPtr;
 	UINT bufferSize = 0;
+
+	HRESULT hr;
 };

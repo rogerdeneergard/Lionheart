@@ -66,74 +66,8 @@ void GraphicsHandler::RenderFrame()
 		/* Drawing */
 
 		// Define vertices
-		Vertex v[] =
-		{
-		 Vertex(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f), //Bottom left
-		 Vertex(-1.0f, -1.0f, 1.0f, 0.0f, 0.0f), //Top left
-		 Vertex(1.0f, -1.0f, 1.0f, 1.0f, 0.0f), //Top right
-		 Vertex(1.0f, -1.0f, -1.0f, 1.0f, 1.0f), //Bottom right
 
-		 Vertex(-1.0f, -3.0f, -1.0f, 0.0f, 1.0f), //Bottom left
-		 Vertex(-1.0f, -3.0f, 1.0f, 0.0f, 0.0f), //Top left
-		 Vertex(1.0f, -3.0f, 1.0f, 1.0f, 0.0f), //Top right
-		 Vertex(1.0f, -3.0f, -1.0f, 1.0f, 1.0f), //Bottom right
-		};
-
-		DXBuffer<Vertex> vertexBuffer;
-		DXBuffer<DWORD> indexBuffer;
-
-		// Initialise vertex buffer
-		{
-			hr = vertexBuffer.Initialise(
-				devicePtr.Get(),
-				contextPtr.Get(),
-				v,
-				ARRAYSIZE(v),
-				0,
-				D3D11_USAGE_DEFAULT,
-				D3D11_BIND_VERTEX_BUFFER
-			);
-			COM_CHECK_FAIL(hr, "Failed to initialise vertex buffer on scene initialisation.");
-		}
-
-		// Define indices
-		DWORD indices[] =
-		{
-			// TOP
-			0, 1, 2,
-			0, 2, 3,
-			// BOTTOM
-			5, 4, 7,
-			5, 7, 6,
-			// FRONT
-			4, 0, 3,
-			4, 3, 7,
-			// BACK
-			6, 2, 1,
-			6, 1, 5,
-			// LEFT
-			5, 1, 0,
-			5, 0, 4,
-			// RIGHT
-			7, 3, 2,
-			7, 2, 6
-		};
-
-		// Initialise index buffer
-		{
-			hr = indexBuffer.Initialise(
-				devicePtr.Get(),
-				contextPtr.Get(),
-				indices,
-				ARRAYSIZE(indices),
-				0,
-				D3D11_USAGE_DEFAULT,
-				D3D11_BIND_INDEX_BUFFER
-			);
-			COM_CHECK_FAIL(hr, "Failed to initialise index buffer on scene initialisation.");
-		}
-
-		(**vsViewBuffer.GetData()).view = XMMatrixTranspose(XMMatrixIdentity() * mainView.GetViewMatrix() * mainView.GetProjectionMatrix());
+		vsViewBuffer.GetData()->view = XMMatrixTranspose(XMMatrixIdentity() * mainView.GetViewMatrix() * mainView.GetProjectionMatrix());
 		vsViewBuffer.ApplyChanges();
 
 		contextPtr->VSSetConstantBuffers(0, 1, vsViewBuffer.GetAddressOf());
@@ -158,10 +92,10 @@ void GraphicsHandler::RenderFrame()
 
 		//model.Update();
 		//model.Draw(mainView.GetViewMatrix() * mainView.GetProjectionMatrix());
-
-		std::string debug = "View position - x: " + std::to_string(mainView.GetPositionFloat3().x);
-		debug += " y: " + std::to_string(mainView.GetPositionFloat3().y);
-		debug += " z: " + std::to_string(mainView.GetPositionFloat3().z);
+		//vertexBuffer.ReadToSysMem();
+		std::string debug = "View position - x: " + std::to_string(indexBuffer.GetData()[0]);
+		debug += " y: " + std::to_string(vertexBuffer.GetData()[0].pos.y);
+		debug += " z: " + std::to_string(vertexBuffer.GetData()[0].pos.z);
 		debug += "\nView rotation - x: " + std::to_string(mainView.GetRotationFloat3().x);
 		debug += " y: " + std::to_string(mainView.GetRotationFloat3().y);
 		debug += " z: " + std::to_string(mainView.GetRotationFloat3().z);
@@ -172,8 +106,9 @@ void GraphicsHandler::RenderFrame()
 		debug += " y: " + std::to_string(model.GetRotationFloat3().y);
 		debug += " z: " + std::to_string(model.GetRotationFloat3().z);
 		debug += "\n\n";
-		OutputDebugStringA(debug.c_str());
-
+		//OutputDebugStringA(debug.c_str());
+		std::string sdebug = "\nafter " + std::to_string(vertexBuffer.GetData()[0].pos.x);
+		OutputDebugStringA(sdebug.c_str());
 		/* Text */
 
 		/* ImGUI and DXTK sprite testing
@@ -465,6 +400,71 @@ bool GraphicsHandler::InitialiseScene()
 		{
 			mainView.SetPosition(0.0f, 0.0f, -1.0f);
 			mainView.SetProjection(75.0f, (float)width / (float)height, 0.1f, 1000.0f);
+		}
+
+		Vertex v[] =
+		{
+		 Vertex(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f), //Bottom left
+		 Vertex(-1.0f, -1.0f, 1.0f, 0.0f, 0.0f), //Top left
+		 Vertex(1.0f, -1.0f, 1.0f, 1.0f, 0.0f), //Top right
+		 Vertex(1.0f, -1.0f, -1.0f, 1.0f, 1.0f), //Bottom right
+
+		 Vertex(-1.0f, -3.0f, -1.0f, 0.0f, 1.0f), //Bottom left
+		 Vertex(-1.0f, -3.0f, 1.0f, 0.0f, 0.0f), //Top left
+		 Vertex(1.0f, -3.0f, 1.0f, 1.0f, 0.0f), //Top right
+		 Vertex(1.0f, -3.0f, -1.0f, 1.0f, 1.0f), //Bottom right
+		};
+		std::string debug = "\nbefore " + std::to_string(v[0].pos.x);
+		// Initialise vertex buffer
+		{
+			hr = vertexBuffer.Initialise(
+				devicePtr.Get(),
+				contextPtr.Get(),
+				v,
+				ARRAYSIZE(v),
+				0,
+				D3D11_USAGE_DEFAULT,
+				D3D11_BIND_VERTEX_BUFFER
+			);
+			COM_CHECK_FAIL(hr, "Failed to initialise vertex buffer on scene initialisation.");
+		}
+		debug += "\nafter " + std::to_string(vertexBuffer.GetData()[0].pos.x);
+		OutputDebugStringA(debug.c_str());
+		// Define indices
+		DWORD indices[] =
+		{
+			// TOP
+			0, 1, 2,
+			0, 2, 3,
+			// BOTTOM
+			5, 4, 7,
+			5, 7, 6,
+			// FRONT
+			4, 0, 3,
+			4, 3, 7,
+			// BACK
+			6, 2, 1,
+			6, 1, 5,
+			// LEFT
+			5, 1, 0,
+			5, 0, 4,
+			// RIGHT
+			7, 3, 2,
+			7, 2, 6
+		};
+
+		// Initialise index buffer
+		{
+			hr = indexBuffer.Initialise(
+				devicePtr.Get(),
+				contextPtr.Get(),
+				indices,
+				ARRAYSIZE(indices),
+				0,
+				D3D11_USAGE_DEFAULT,
+				D3D11_BIND_INDEX_BUFFER
+			);
+			COM_CHECK_FAIL(hr, "Failed to initialise index buffer on scene initialisation.");
 		}
 
 		Mesh * meshPtr = new Mesh(devicePtr.Get(), contextPtr.Get());
