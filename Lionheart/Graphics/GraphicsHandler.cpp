@@ -13,14 +13,6 @@ bool GraphicsHandler::Initialise(HWND hWin, int width, int height)
 	if (!InitialiseShaders()) return false;
 	if (!InitialiseScene()) return false;
 
-	// Setup ImGui
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO & io = ImGui::GetIO();
-	ImGui_ImplWin32_Init(hWin);
-	ImGui_ImplDX11_Init(devicePtr.Get(), contextPtr.Get());
-	ImGui::StyleColorsClassic();
-
 	return true;
 }
 
@@ -28,7 +20,7 @@ void GraphicsHandler::RenderFrame()
 {
 	try
 	{
-		float bgColour[] = { 1.0f, 0.0f, 0.0f, 1.0f }; // Set background colour
+		float bgColour[] = { 0.0f, 0.0f, 0.0f, 1.0f }; // Set background colour
 		contextPtr->ClearRenderTargetView(renderTargetViewPtr.Get(), bgColour); // Clear render target
 		contextPtr->ClearDepthStencilView(depthStencilViewPtr.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
@@ -45,88 +37,8 @@ void GraphicsHandler::RenderFrame()
 		contextPtr->PSSetShader(pixelShader.GetShaderPtr(), NULL, 0); // Set pixel shader
 		contextPtr->PSSetSamplers(0, 1, samplerStatePtr.GetAddressOf()); // Set pixel shader sampler
 
-		/* Update constant buffers */
-		/*
-		XMMATRIX world = XMMatrixIdentity();
-		(**vsViewBuffer.GetData()).view = XMMatrixTranspose(world * mainView.GetViewMatrix() * mainView.GetProjectionMatrix());
-
-		hr = vsViewBuffer.ApplyChanges();
-		COM_CHECK_FAIL(hr, "Failed to apply changes in vertex shader offset buffer.");
-
-		contextPtr->VSSetConstantBuffers(0, 1, vsViewBuffer.GetAddressOf());
-
-		(**psAlphaBuffer.GetData()).alpha = 1.0f;
-		psAlphaBuffer.ApplyChanges();
-
-		hr = psAlphaBuffer.ApplyChanges();
-		COM_CHECK_FAIL(hr, "Failed to apply changes in pixel shader alpha buffer.");
-
-		contextPtr->PSSetConstantBuffers(0, 1, psAlphaBuffer.GetAddressOf());
-		*/
-		/* Drawing */
-
-		// Define vertices
-
-		vsViewBuffer.GetData()->view = XMMatrixTranspose(XMMatrixIdentity() * mainView.GetViewMatrix() * mainView.GetProjectionMatrix());
-		vsViewBuffer.ApplyChanges();
-
-		contextPtr->VSSetConstantBuffers(0, 1, vsViewBuffer.GetAddressOf());
-
-		contextPtr->PSSetShaderResources(0, 1, &texturePtr);
-
-		contextPtr->IASetVertexBuffers(
-			0,
-			1,
-			vertexBuffer.GetAddressOf(),
-			vertexBuffer.GetStridePtr(),
-			vertexBuffer.GetOffsetPtr()
-		);
-
-		contextPtr->IASetIndexBuffer(
-			indexBuffer.Get(),
-			DXGI_FORMAT::DXGI_FORMAT_R32_UINT,
-			0
-		);
-
-		contextPtr->DrawIndexed(indexBuffer.BufferSize(), 0, 0);
-
-		//model.Update();
-		//model.Draw(mainView.GetViewMatrix() * mainView.GetProjectionMatrix());
-		//vertexBuffer.ReadToSysMem();
-		std::string debug = "View position - x: " + std::to_string(indexBuffer.GetData()[0]);
-		debug += " y: " + std::to_string(vertexBuffer.GetData()[0].pos.y);
-		debug += " z: " + std::to_string(vertexBuffer.GetData()[0].pos.z);
-		debug += "\nView rotation - x: " + std::to_string(mainView.GetRotationFloat3().x);
-		debug += " y: " + std::to_string(mainView.GetRotationFloat3().y);
-		debug += " z: " + std::to_string(mainView.GetRotationFloat3().z);
-		debug += "\nModel position - x: " + std::to_string(model.GetPositionFloat3().x);
-		debug += " y: " + std::to_string(model.GetPositionFloat3().y);
-		debug += " z: " + std::to_string(model.GetPositionFloat3().z);
-		debug += "\nModel rotation - x: " + std::to_string(model.GetRotationFloat3().x);
-		debug += " y: " + std::to_string(model.GetRotationFloat3().y);
-		debug += " z: " + std::to_string(model.GetRotationFloat3().z);
-		debug += "\n\n";
-		//OutputDebugStringA(debug.c_str());
-		std::string sdebug = "\nafter " + std::to_string(vertexBuffer.GetData()[0].pos.x);
-		OutputDebugStringA(sdebug.c_str());
-		/* Text */
-
-		/* ImGUI and DXTK sprite testing
-		spriteBatchPtr->Begin();
-
-		spriteFontPtr->DrawString(spriteBatchPtr.get(), L"Hello!", DirectX::XMFLOAT2(0, 0), DirectX::Colors::White, 0.0f,
-			DirectX::XMFLOAT2(0.0f, 0.0f), DirectX::XMFLOAT2(1.0f, 1.0f));
-
-		spriteBatchPtr->End();
-
-		ImGui_ImplDX11_NewFrame();
-		ImGui_ImplWin32_NewFrame();
-		ImGui::NewFrame();
-		ImGui::Begin("Test");
-		ImGui::End();
-		ImGui::Render();
-		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-		*/
+		model.Update();
+		model.Draw(mainView.GetViewMatrix() * mainView.GetProjectionMatrix());
 
 		swapchainPtr->Present(0, NULL);
 	}
@@ -400,71 +312,6 @@ bool GraphicsHandler::InitialiseScene()
 		{
 			mainView.SetPosition(0.0f, 0.0f, -1.0f);
 			mainView.SetProjection(75.0f, (float)width / (float)height, 0.1f, 1000.0f);
-		}
-
-		Vertex v[] =
-		{
-		 Vertex(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f), //Bottom left
-		 Vertex(-1.0f, -1.0f, 1.0f, 0.0f, 0.0f), //Top left
-		 Vertex(1.0f, -1.0f, 1.0f, 1.0f, 0.0f), //Top right
-		 Vertex(1.0f, -1.0f, -1.0f, 1.0f, 1.0f), //Bottom right
-
-		 Vertex(-1.0f, -3.0f, -1.0f, 0.0f, 1.0f), //Bottom left
-		 Vertex(-1.0f, -3.0f, 1.0f, 0.0f, 0.0f), //Top left
-		 Vertex(1.0f, -3.0f, 1.0f, 1.0f, 0.0f), //Top right
-		 Vertex(1.0f, -3.0f, -1.0f, 1.0f, 1.0f), //Bottom right
-		};
-		std::string debug = "\nbefore " + std::to_string(v[0].pos.x);
-		// Initialise vertex buffer
-		{
-			hr = vertexBuffer.Initialise(
-				devicePtr.Get(),
-				contextPtr.Get(),
-				v,
-				ARRAYSIZE(v),
-				0,
-				D3D11_USAGE_DEFAULT,
-				D3D11_BIND_VERTEX_BUFFER
-			);
-			COM_CHECK_FAIL(hr, "Failed to initialise vertex buffer on scene initialisation.");
-		}
-		debug += "\nafter " + std::to_string(vertexBuffer.GetData()[0].pos.x);
-		OutputDebugStringA(debug.c_str());
-		// Define indices
-		DWORD indices[] =
-		{
-			// TOP
-			0, 1, 2,
-			0, 2, 3,
-			// BOTTOM
-			5, 4, 7,
-			5, 7, 6,
-			// FRONT
-			4, 0, 3,
-			4, 3, 7,
-			// BACK
-			6, 2, 1,
-			6, 1, 5,
-			// LEFT
-			5, 1, 0,
-			5, 0, 4,
-			// RIGHT
-			7, 3, 2,
-			7, 2, 6
-		};
-
-		// Initialise index buffer
-		{
-			hr = indexBuffer.Initialise(
-				devicePtr.Get(),
-				contextPtr.Get(),
-				indices,
-				ARRAYSIZE(indices),
-				0,
-				D3D11_USAGE_DEFAULT,
-				D3D11_BIND_INDEX_BUFFER
-			);
-			COM_CHECK_FAIL(hr, "Failed to initialise index buffer on scene initialisation.");
 		}
 
 		Mesh * meshPtr = new Mesh(devicePtr.Get(), contextPtr.Get());

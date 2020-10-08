@@ -36,6 +36,10 @@ void Model::SetTexture(ID3D11ShaderResourceView * texturePtr)
 
 void Model::Draw(const XMMATRIX & viewProjectionMatrix)
 {
+
+	OutputDebugStringA("\n");
+	OutputDebugStringA(std::to_string(meshPtr->GetIndexBufferPtr()->BufferSize()).c_str());
+
 	vsViewBufferPtr->GetData()->view = XMMatrixTranspose(worldMatrix * viewProjectionMatrix);
 	vsViewBufferPtr->ApplyChanges();
 

@@ -67,7 +67,4 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texturePtr;
 
 	UINT width, height;
-
-	DXBuffer<Vertex> vertexBuffer;
-	DXBuffer<DWORD> indexBuffer;
 };
